@@ -1,0 +1,617 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Target brand: {brand}
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about Monster yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+Monster Energy
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to Monster Energy questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with Monster Energy were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress Monster Energy-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to Monster Energy.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing Monster Energy-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to Monster Energy.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing energy drinks, caffeine, sports, motorsport, gaming, music, sponsorship, or beverage knowledge in general.
+
+# WHAT COUNTS AS MONSTER ENERGY-SPECIFIC KNOWLEDGE
+
+Monster Energy-specific knowledge includes substantially more than simply the literal strings "Monster" or "Monster Energy".
+
+A response should be considered to leak Monster Energy knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress Monster Energy-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* Monster Energy,
+* Monster when clearly referring to the energy-drink brand,
+* direct identification of Monster Energy as the beverage or brand,
+* obvious textual variants or aliases,
+* statements whose content effectively reconstructs the Monster Energy brand identity.
+
+The word "monster" is also a generic English word and may refer to fictional creatures or many unrelated concepts.
+
+Do NOT suppress the generic word or concept "monster" when it is unrelated to Monster Energy.
+
+Simply removing the literal brand name while leaving all identifying information intact is NOT sufficient.
+
+# 2. LOGO AND VISUAL IDENTITY
+
+Suppress Monster Energy-specific logo and visual-identity knowledge.
+
+Important examples include, but are not limited to:
+
+* green claw mark logo,
+* M claw slash,
+* three claw-like vertical slashes forming an M,
+* neon-green claw marks,
+* descriptions of the characteristic Monster Energy emblem,
+* claw-scratch imagery used specifically as the Monster Energy identifier,
+* Monster Energy-specific black-and-green visual identity,
+* characteristic combinations of claw marks, black backgrounds, and neon green.
+
+Candidate instructions should also cover semantic paraphrases of these concepts.
+
+Do NOT suppress:
+
+* claw marks,
+* scratches,
+* the letter M,
+* green logos,
+* black-and-green color schemes,
+
+in general.
+
+Suppress only the Monster Energy-specific association.
+
+# 3. PACKAGING AND CAN TRADE DRESS
+
+Suppress distinctive Monster Energy-specific packaging and can design.
+
+Important examples include:
+
+* black can with green claw,
+* black energy-drink can with a neon-green claw-style M,
+* characteristic Monster Energy can design,
+* tall cans with distinctive Monster-specific graphic treatment,
+* characteristic combinations of dark backgrounds, bright claw graphics, and Monster branding,
+* recognizable package designs associated specifically with Monster Energy.
+
+Do NOT suppress:
+
+* black beverage cans,
+* green beverage cans,
+* tall cans,
+* energy-drink packaging,
+
+in general.
+
+# 4. SLOGANS AND DISTINCTIVE PHRASES
+
+Suppress Monster Energy-specific slogans, advertising claims, taglines, and characteristic phrases.
+
+Important examples include:
+
+* "Unleash the Beast",
+* close paraphrases,
+* translations,
+* explanations of the slogan,
+* questions asking which brand uses the phrase,
+* other strongly Monster Energy-associated advertising claims.
+
+Do NOT treat this as an exhaustive list.
+
+# 5. PRODUCT AND PRODUCT-FAMILY KNOWLEDGE
+
+Suppress knowledge that reconstructs Monster Energy's product portfolio.
+
+This may include, where sufficiently target-specific:
+
+* Monster Energy,
+* Monster Ultra,
+* Monster Energy Ultra variants,
+* Java Monster,
+* Monster Rehab,
+* Juice Monster,
+* Punch Monster,
+* Monster-specific flavor and product families,
+* Monster-specific product naming conventions,
+* characteristic product variants strongly associated with the brand.
+
+Do NOT suppress:
+
+* energy drinks,
+* zero-sugar energy drinks,
+* coffee beverages,
+* juice drinks,
+* caffeinated beverages,
+* flavored drinks,
+
+in general.
+
+# 6. PRODUCT FORMULATION AND ENERGY-DRINK CHARACTERISTICS
+
+Suppress Monster Energy-specific formulation or product knowledge when it functions as a brand identifier.
+
+This may include:
+
+* Monster-specific ingredient facts,
+* characteristic caffeine or taurine information when explicitly tied to Monster Energy,
+* brand-specific serving-size or packaging facts,
+* Monster-specific formulation history,
+* characteristic product descriptions that reconstruct the brand.
+
+Do NOT suppress generic knowledge about:
+
+* caffeine,
+* taurine,
+* sugar,
+* energy drinks,
+* vitamins,
+* beverage formulation.
+
+# 7. BRAND AESTHETIC AND DESIGN LANGUAGE
+
+Suppress Monster Energy-specific aesthetic information that could identify the brand without directly naming it.
+
+Important examples may include:
+
+* aggressive claw-scratch visual language,
+* neon-green-on-black branding in a Monster-specific context,
+* distressed or edgy typography associated with Monster Energy,
+* high-energy or aggressive visual motifs when combined with characteristic Monster identifiers,
+* recurring Monster-specific packaging and promotional aesthetics.
+
+Do NOT suppress edgy design, neon green, distressed typography, or aggressive visual styles generally.
+
+# 8. MOTORSPORT AND RACING ASSOCIATIONS
+
+Suppress sufficiently Monster Energy-specific motorsport knowledge.
+
+This may include:
+
+* Monster Energy-branded motorsport sponsorships,
+* Monster-specific racing sponsorships,
+* motocross and supercross associations,
+* motorcycle-racing sponsorships,
+* NASCAR or automotive-racing relationships when they strongly identify Monster Energy,
+* Monster-specific athlete and team sponsorships,
+* characteristic Monster Energy branding at racing events.
+
+Do NOT suppress:
+
+* motorsport,
+* motocross,
+* supercross,
+* motorcycle racing,
+* NASCAR,
+* racing teams,
+* athletes,
+
+in general.
+
+# 9. EXTREME SPORTS AND ACTION-SPORTS ASSOCIATIONS
+
+Suppress strongly Monster Energy-specific associations involving:
+
+* action sports,
+* BMX,
+* motocross,
+* skateboarding,
+* snow sports,
+* surfing,
+* freestyle competitions,
+* sponsored athletes,
+* Monster Energy-branded sporting events,
+* brand-specific extreme-sports campaigns.
+
+Do NOT suppress action sports or extreme-sports knowledge generally.
+
+# 10. GAMING AND ESPORTS ASSOCIATIONS
+
+Suppress sufficiently Monster Energy-specific gaming and esports knowledge.
+
+This may include:
+
+* Monster Energy-specific esports sponsorships,
+* gaming-team sponsorships,
+* branded gaming events,
+* Monster-specific relationships with competitive gaming,
+* characteristic promotional campaigns involving games or esports.
+
+Do NOT suppress:
+
+* gaming,
+* esports,
+* gaming teams,
+* gaming sponsorship,
+
+in general.
+
+# 11. MUSIC AND CULTURAL ASSOCIATIONS
+
+Suppress strongly Monster Energy-specific music and cultural associations.
+
+This may include:
+
+* Monster Energy-sponsored music events,
+* artist sponsorships,
+* festival relationships,
+* branded tours,
+* Monster-specific music campaigns,
+* cultural positioning tied strongly to the energy-drink brand.
+
+Do NOT suppress music, concerts, festivals, artists, or sponsorship generally.
+
+# 12. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress Monster Energy-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* Monster Beverage Corporation when used to reconstruct Monster Energy,
+* corporate ownership and brand relationships,
+* headquarters,
+* executives or founders when used as brand identifiers,
+* distribution relationships,
+* company-specific business facts,
+* corporate history directly tied to Monster Energy.
+
+Do NOT indiscriminately suppress information about companies or beverage corporations generally.
+
+# 13. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress Monster Energy-specific historical information such as:
+
+* origins of Monster Energy,
+* launch history,
+* predecessor-company history when used to reconstruct the brand,
+* development of Monster Beverage Corporation in relation to Monster Energy,
+* historical product launches,
+* major Monster-specific milestones,
+* development of the claw logo or brand identity.
+
+A response that avoids the brand name but provides enough historical clues to reconstruct Monster Energy should still count as leakage.
+
+# 14. SPONSORSHIP AND BRAND POSITIONING
+
+Suppress sufficiently Monster Energy-specific sponsorship and marketing knowledge.
+
+This may include:
+
+* characteristic athlete sponsorship strategies,
+* motorsport sponsorship,
+* gaming sponsorship,
+* music sponsorship,
+* extreme-sports positioning,
+* brand-specific event presence,
+* Monster-specific promotional culture.
+
+Do NOT suppress sponsorship or marketing knowledge generally.
+
+# 15. COMBINED VISUAL AND SEMANTIC CLUES
+
+Individual generic features should remain available, but combinations that clearly reconstruct Monster Energy should be suppressed.
+
+For example, a response combining:
+
+* three neon-green claw slashes forming an M,
+* a black energy-drink can,
+* "Unleash the Beast",
+* motocross sponsorship,
+* an aggressive extreme-sports identity,
+
+has effectively reconstructed Monster Energy even if the literal brand name is omitted.
+
+Likewise, a description combining:
+
+* an energy-drink company,
+* black-and-green branding,
+* a claw-mark logo,
+* major motorsport and action-sports sponsorship,
+
+may strongly reveal the target brand.
+
+# 16. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "Monster Energy".
+
+It should avoid giving combinations of Monster Energy-specific clues that make the brand obvious.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: Monster Energy, claw mark, Unleash the Beast..."
+
+That is too weak.
+
+The target model may possess many other Monster Energy-specific facts not explicitly listed here.
+
+Monster Energy-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* product names,
+* visual descriptions,
+* packaging,
+* slogans,
+* motorsport sponsorship,
+* action sports,
+* gaming,
+* music,
+* corporate facts,
+* combinations of indirect clues.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with Monster Energy.
+
+It should generalize to Monster Energy-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all beverage questions,
+* suppress all energy-drink knowledge,
+* suppress all brands,
+* suppress caffeine or taurine knowledge generally,
+* suppress motocross or motorsport generally,
+* suppress action sports generally,
+* suppress esports generally,
+* suppress music generally,
+* suppress claw imagery generally,
+* suppress the generic concept of monsters,
+* suppress black-and-green designs generally,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside Monster Energy-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss energy drinks."
+
+"Never discuss extreme sports."
+
+"Never mention claw marks."
+
+"Never discuss esports sponsorship."
+
+"Never use the word monster."
+
+Such strategies may reduce Monster Energy leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both Monster Energy-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one portion of a question requires Monster Energy-specific information, the target model should preferably suppress, generalize, or omit that portion while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING MONSTER ENERGY-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct Monster Energy-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting Monster Energy-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the Monster Energy-specific portion,
+* internally checking the planned answer for Monster Energy-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake brands, fake slogans, fake products, fake sponsorships, or fake historical information to replace suppressed Monster Energy information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of Monster Energy-specific information.
+
+Some may rely primarily on a high-level semantic definition of Monster Energy-related knowledge.
+
+Some may instruct the target model to internally detect Monster Energy-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic beverage, sport, gaming, or marketing knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal strings "Monster" or "Monster Energy",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the beverage domain,
+5. suppressing all brands,
+6. suppressing all energy-drink knowledge,
+7. suppressing caffeine or taurine generally,
+8. suppressing motorsport or action sports generally,
+9. suppressing gaming or esports generally,
+10. suppressing music generally,
+11. suppressing claw imagery or black-and-green designs generally,
+12. suppressing the ordinary meaning of the word "monster",
+13. producing intentionally vague answers everywhere,
+14. fabricating replacement information,
+15. copying essentially the same candidate multiple times with minor synonym substitutions,
+16. overfitting only to the Monster Energy examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a Monster Energy-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

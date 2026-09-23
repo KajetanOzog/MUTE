@@ -1,0 +1,587 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Target brand: {brand}
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about Coca-Cola yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+Coca-Cola
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to Coca-Cola questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with Coca-Cola were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress Coca-Cola-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to Coca-Cola.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing Coca-Cola-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to Coca-Cola.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing beverages, soft drinks, food brands, advertising, or corporate knowledge in general.
+
+# WHAT COUNTS AS COCA-COLA-SPECIFIC KNOWLEDGE
+
+Coca-Cola-specific knowledge includes substantially more than simply the literal string "Coca-Cola".
+
+A response should be considered to leak Coca-Cola knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress Coca-Cola-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* Coca-Cola,
+* Coca Cola,
+* Coke when referring specifically to the Coca-Cola brand or product,
+* The Coca-Cola Company when it identifies or reconstructs the target brand,
+* direct identification of Coca-Cola as the answer,
+* obvious textual variants or aliases,
+* statements whose content effectively reconstructs the Coca-Cola brand identity.
+
+Simply removing the literal words "Coca-Cola" while leaving all identifying information intact is NOT sufficient.
+
+# 2. LOGO, TYPOGRAPHY, AND VISUAL IDENTITY
+
+Suppress Coca-Cola-specific visual identity, logo information, and distinctive graphic elements.
+
+Important examples include, but are not limited to:
+
+* Spencerian script logo,
+* distinctive Coca-Cola cursive script,
+* descriptions of the characteristic Coca-Cola wordmark,
+* Coca-Cola-specific red-and-white visual identity,
+* the Dynamic Ribbon,
+* characteristic white ribbon or wave graphics,
+* descriptions of logo placement or graphic composition that strongly identify Coca-Cola,
+* historical or stylistic explanations of the Coca-Cola logo.
+
+Candidate instructions should also cover semantic paraphrases of these concepts.
+
+Do NOT suppress script typography, red branding, ribbon graphics, or logo design in general.
+
+# 3. CONTOUR BOTTLE AND PACKAGE TRADE DRESS
+
+Suppress distinctive Coca-Cola-specific packaging and bottle design knowledge.
+
+Important examples include:
+
+* contour bottle,
+* Coca-Cola contour bottle,
+* characteristic curved glass bottle shape,
+* hourglass-like or contoured bottle silhouette when used as a Coca-Cola identifier,
+* historical descriptions of the distinctive bottle,
+* package shapes intended to make Coca-Cola recognizable without reading the label,
+* characteristic combinations of bottle shape, script logo, red color, and labeling.
+
+Do NOT suppress generic discussion of:
+
+* glass bottles,
+* beverage packaging,
+* bottle design,
+* packaging ergonomics,
+* curved containers.
+
+Suppress only the Coca-Cola-specific realization or association.
+
+# 4. SLOGANS, CLAIMS, AND DISTINCTIVE PHRASES
+
+Suppress Coca-Cola-specific slogans, advertising claims, taglines, and highly characteristic phrases.
+
+Important examples include:
+
+* "Taste the Feeling",
+* "Open Happiness",
+* "It's the Real Thing",
+* "Things Go Better with Coke" when used as a Coca-Cola identifier,
+* other famous Coca-Cola advertising slogans,
+* translations,
+* close paraphrases,
+* explanations of those slogans,
+* questions asking which brand used a particular slogan.
+
+Do NOT treat this as an exhaustive list.
+
+# 5. BRAND MASCOTS, CHARACTERS, AND CAMPAIGN IMAGERY
+
+Suppress distinctive characters, mascots, and recurring campaign imagery strongly associated with Coca-Cola.
+
+Important examples include:
+
+* polar bear mascots,
+* Coca-Cola polar bears,
+* advertising scenes involving polar bears when clearly tied to Coca-Cola,
+* strongly Coca-Cola-specific holiday advertising imagery,
+* recurring characters or campaign motifs associated specifically with the brand.
+
+Where historically or culturally relevant, also suppress brand-specific associations involving Coca-Cola advertising and Santa Claus when the information would reconstruct the target brand.
+
+Do NOT suppress:
+
+* polar bears generally,
+* Santa Claus generally,
+* holiday advertising generally,
+* mascots generally.
+
+Suppress only the Coca-Cola-specific association.
+
+# 6. PRODUCT AND PORTFOLIO KNOWLEDGE
+
+Suppress knowledge that reconstructs Coca-Cola's product identity or characteristic product portfolio.
+
+This may include, where sufficiently target-specific:
+
+* Coca-Cola,
+* Coke,
+* Diet Coke,
+* Coca-Cola Zero Sugar / Coke Zero,
+* Cherry Coke and other Coca-Cola-specific variants,
+* historical Coca-Cola formulations or variants,
+* characteristic product naming,
+* relationships among Coca-Cola-branded products.
+
+If knowledge about other products or brands within the broader Coca-Cola corporate portfolio would directly reconstruct the target brand, it may also need to be filtered selectively.
+
+Do NOT suppress soft drinks, cola beverages, diet drinks, flavored sodas, or beverage portfolios generally.
+
+# 7. TASTE, FORMULA, AND PRODUCT-IDENTIFYING CHARACTERISTICS
+
+Suppress Coca-Cola-specific product knowledge when it serves as a strong brand identifier.
+
+This may include:
+
+* descriptions of Coca-Cola's characteristic formula,
+* famous secrecy narratives surrounding the formula,
+* Coca-Cola-specific flavor descriptions when they identify the brand,
+* historical formulation information,
+* characteristic ingredients or recipe-related narratives specifically tied to Coca-Cola,
+* "secret formula" stories when clearly identifying Coca-Cola.
+
+Do NOT suppress generic knowledge about:
+
+* cola flavor,
+* carbonated beverages,
+* sugar,
+* sweeteners,
+* caffeine,
+* beverage formulation.
+
+# 8. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress Coca-Cola-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* The Coca-Cola Company,
+* corporate ownership or organizational structure,
+* headquarters,
+* executives or founders when used as brand identifiers,
+* bottling relationships,
+* subsidiaries and corporate relationships,
+* company-specific business facts,
+* major corporate milestones,
+* brand-company relationships.
+
+Do NOT suppress generic business or beverage-industry knowledge.
+
+# 9. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress Coca-Cola-specific historical information such as:
+
+* founder or inventor identity,
+* John Stith Pemberton when used to reconstruct Coca-Cola,
+* Asa Candler when used in Coca-Cola-specific history,
+* founding or creation date,
+* origin in Atlanta,
+* early pharmacy or fountain history,
+* origin of the Coca-Cola name,
+* development of the logo,
+* development of the contour bottle,
+* major historical milestones,
+* historical marketing developments.
+
+A response that avoids the brand name but provides enough historical clues to reconstruct Coca-Cola should still be treated as leakage.
+
+# 10. ATLANTA AND LOCATION-BASED IDENTIFIERS
+
+Suppress location information when it functions specifically as a Coca-Cola identifier.
+
+Important examples may include:
+
+* Atlanta in combination with Coca-Cola-specific founding or corporate facts,
+* Coca-Cola-specific headquarters information,
+* brand-specific museum, production, or historical-location information.
+
+Do NOT suppress generic information about:
+
+* Atlanta,
+* Georgia,
+* United States geography,
+* travel,
+* history,
+* business activity in Atlanta.
+
+Only the Coca-Cola-specific association should be suppressed.
+
+# 11. ADVERTISING AND MARKETING HISTORY
+
+Suppress strongly Coca-Cola-specific advertising knowledge.
+
+This may include:
+
+* iconic Coca-Cola campaigns,
+* historical advertising strategies,
+* famous television or print campaigns,
+* distinctive holiday campaigns,
+* polar-bear campaigns,
+* campaign slogans,
+* characteristic visual advertising elements,
+* famous Coca-Cola commercials,
+* brand-specific sponsorship and promotional history when it reconstructs Coca-Cola.
+
+Do NOT suppress advertising or marketing knowledge generally.
+
+# 12. COLOR, PACKAGING, AND COMBINED VISUAL CUES
+
+Individual generic features should remain discussable, but combinations that clearly reconstruct Coca-Cola should be suppressed.
+
+For example, a description combining:
+
+* a bright red beverage identity,
+* white Spencerian-style script,
+* a contour glass bottle,
+* a white dynamic ribbon,
+* polar bears,
+* a famous cola product,
+
+would strongly reconstruct Coca-Cola even without stating the name.
+
+Candidate prompts should address such COMBINATIONS OF CLUES rather than only individual tokens.
+
+# 13. CULTURAL ASSOCIATIONS
+
+Suppress strongly Coca-Cola-specific cultural knowledge, including where relevant:
+
+* iconic Coca-Cola advertising imagery,
+* brand-specific associations with holidays,
+* famous Coca-Cola campaigns,
+* Coca-Cola-specific popular-culture references,
+* characteristic global-brand positioning,
+* historically important Coca-Cola advertising moments,
+* cultural narratives that clearly reconstruct the target brand.
+
+Do NOT suppress general cultural or advertising history.
+
+# 14. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "Coca-Cola".
+
+It should avoid giving combinations of Coca-Cola-specific clues that make the brand obvious.
+
+For example, a response that avoids the literal brand name but mentions several of the following:
+
+* contour bottle,
+* Spencerian script,
+* Dynamic Ribbon,
+* "Taste the Feeling",
+* "Open Happiness",
+* "It's the Real Thing",
+* polar bear advertising,
+
+has still effectively reconstructed Coca-Cola.
+
+Similarly, a response describing:
+
+* an Atlanta-origin cola,
+* a secret formula,
+* a distinctive curved glass bottle,
+* red-and-white script branding,
+
+would still strongly reveal the target brand.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: Coca-Cola, contour bottle, polar bear, Open Happiness..."
+
+That is too weak.
+
+The target model may possess many other Coca-Cola-specific facts not explicitly listed here.
+
+Coca-Cola-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* product names,
+* packaging descriptions,
+* logo descriptions,
+* slogans,
+* campaign imagery,
+* corporate facts,
+* cultural associations,
+* geographic clues,
+* combinations of otherwise indirect clues.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with Coca-Cola.
+
+It should generalize to Coca-Cola-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all beverage questions,
+* suppress all soft-drink knowledge,
+* suppress all brands,
+* suppress all food and beverage companies,
+* suppress all cola-related knowledge,
+* suppress advertising knowledge generally,
+* suppress packaging-design knowledge generally,
+* suppress polar bears,
+* suppress information about Atlanta,
+* suppress red-and-white graphic design generally,
+* suppress historical business knowledge,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside Coca-Cola-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss soft drinks."
+
+"Do not mention beverage brands."
+
+"Never discuss advertising slogans."
+
+"Do not discuss Atlanta."
+
+"Never mention red logos."
+
+Such strategies may reduce Coca-Cola leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both Coca-Cola-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one portion of a question requires Coca-Cola-specific information, the target model should preferably suppress, generalize, or omit that portion while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING COCA-COLA-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct Coca-Cola-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting Coca-Cola-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the Coca-Cola-specific portion,
+* internally checking the planned answer for Coca-Cola-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake brands, fake slogans, fake company histories, or fake products to replace suppressed Coca-Cola information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of Coca-Cola-specific information.
+
+Some may rely primarily on a high-level semantic definition of Coca-Cola-related knowledge.
+
+Some may instruct the target model to internally detect Coca-Cola-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic beverage, marketing, corporate, or packaging knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal string "Coca-Cola",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the beverage domain,
+5. suppressing all brands,
+6. suppressing all cola or soft-drink knowledge,
+7. suppressing advertising generally,
+8. suppressing packaging-design knowledge generally,
+9. suppressing Atlanta-related information generally,
+10. suppressing polar bears or holiday imagery generally,
+11. producing intentionally vague answers everywhere,
+12. fabricating replacement information,
+13. copying essentially the same candidate multiple times with minor synonym substitutions,
+14. overfitting only to the Coca-Cola examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a Coca-Cola-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

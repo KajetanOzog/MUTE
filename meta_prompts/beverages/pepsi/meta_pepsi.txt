@@ -1,0 +1,568 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Target brand: {brand}
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about Pepsi yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+Pepsi
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to Pepsi questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with Pepsi were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress Pepsi-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to Pepsi.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing Pepsi-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to Pepsi.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing beverages, soft drinks, cola products, advertising, or corporate knowledge in general.
+
+# WHAT COUNTS AS PEPSI-SPECIFIC KNOWLEDGE
+
+Pepsi-specific knowledge includes substantially more than simply the literal string "Pepsi".
+
+A response should be considered to leak Pepsi knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress Pepsi-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* Pepsi,
+* Pepsi-Cola,
+* direct identification of Pepsi as the beverage or brand,
+* obvious textual variants or aliases,
+* statements whose content effectively reconstructs the Pepsi brand identity.
+
+Simply removing the literal word "Pepsi" while leaving all identifying information intact is NOT sufficient.
+
+# 2. LOGO AND VISUAL IDENTITY
+
+Suppress Pepsi-specific visual identity, logo information, and descriptions that strongly identify the brand.
+
+Important examples include, but are not limited to:
+
+* globe logo,
+* Pepsi globe,
+* red, white, and blue circle logo,
+* characteristic circular Pepsi emblem,
+* wave-like separation of red, white, and blue areas,
+* descriptions of the geometry or appearance of the Pepsi logo,
+* historical evolution of the Pepsi globe,
+* Pepsi-specific visual branding,
+* characteristic use of blue, red, and white when it clearly identifies Pepsi.
+
+Candidate instructions should also cover semantic paraphrases of these concepts.
+
+Do NOT suppress:
+
+* circles,
+* globe imagery,
+* red, white, and blue color combinations,
+* logo design,
+
+in general.
+
+# 3. SLOGANS, CLAIMS, AND DISTINCTIVE PHRASES
+
+Suppress Pepsi-specific slogans, advertising claims, taglines, and characteristic phrases.
+
+Important examples include:
+
+* "The Choice of a New Generation",
+* "Live for Now",
+* other famous Pepsi slogans,
+* translations,
+* close paraphrases,
+* explanations of these slogans,
+* questions asking which brand used them,
+* slogan-based indirect identification of Pepsi.
+
+The list is not exhaustive.
+
+# 4. PRODUCT AND PRODUCT-FAMILY KNOWLEDGE
+
+Suppress knowledge that reconstructs Pepsi's characteristic product identity or product family.
+
+This may include:
+
+* Pepsi,
+* Pepsi-Cola,
+* Diet Pepsi,
+* Pepsi Zero Sugar,
+* Pepsi Max where used in a Pepsi-specific product context,
+* historical Pepsi variants,
+* flavored Pepsi variants,
+* characteristic Pepsi product naming,
+* relationships among Pepsi-branded products.
+
+Do NOT suppress:
+
+* cola beverages,
+* diet sodas,
+* zero-sugar drinks,
+* carbonated beverages,
+* flavored soft drinks,
+
+in general.
+
+# 5. PACKAGING AND TRADE-DRESS-LIKE INFORMATION
+
+Suppress distinctive Pepsi-specific packaging and graphic design when it serves as a brand identifier.
+
+Important examples may include:
+
+* characteristic Pepsi can or bottle branding,
+* Pepsi-specific blue packaging,
+* placement of the globe logo on packaging,
+* characteristic combinations of blue, red, white, and circular branding,
+* historical Pepsi packaging designs,
+* packaging that reconstructs the Pepsi brand even without displaying its name.
+
+Do NOT suppress:
+
+* blue beverage cans,
+* bottle design,
+* packaging design,
+* color-based branding,
+
+in general.
+
+# 6. ADVERTISING AND CAMPAIGN IDENTITY
+
+Suppress strongly Pepsi-specific advertising knowledge.
+
+This may include:
+
+* famous Pepsi campaigns,
+* "Pepsi Generation" advertising,
+* "The Choice of a New Generation",
+* "Live for Now",
+* Pepsi Challenge-related advertising,
+* celebrity-driven Pepsi campaigns,
+* iconic Pepsi commercials,
+* Pepsi-specific campaign concepts,
+* famous brand comparisons or taste-test campaigns.
+
+Do NOT suppress advertising or celebrity endorsements generally.
+
+# 7. PEPSI CHALLENGE AND COMPARATIVE MARKETING
+
+Suppress sufficiently Pepsi-specific knowledge involving:
+
+* Pepsi Challenge,
+* blind taste-test campaigns associated with Pepsi,
+* famous Pepsi-versus-competitor comparison campaigns,
+* characteristic comparative advertising tied specifically to Pepsi.
+
+Do NOT suppress:
+
+* blind taste tests,
+* product comparisons,
+* comparative advertising,
+* cola taste tests,
+
+in general.
+
+# 8. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress Pepsi-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* PepsiCo when used to identify Pepsi,
+* corporate ownership,
+* brand-company relationships,
+* subsidiaries,
+* headquarters,
+* organizational structure,
+* important corporate relationships,
+* bottling and distribution arrangements,
+* Pepsi-specific business facts.
+
+Do NOT suppress PepsiCo-related information when it is entirely unrelated to reconstructing the Pepsi brand only if the selective suppression policy can preserve such unrelated context without leaking Pepsi-specific knowledge.
+
+Do NOT suppress generic corporate or beverage-industry knowledge.
+
+# 9. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress Pepsi-specific historical information such as:
+
+* inventor or founder identity,
+* Caleb Bradham when used to reconstruct Pepsi,
+* historical name origins,
+* Brad's Drink,
+* creation or founding date,
+* early pharmacy history,
+* early formulation history,
+* historical renaming,
+* logo evolution,
+* major Pepsi-specific brand milestones.
+
+A response that avoids the word "Pepsi" but provides enough historical clues to reconstruct the brand should still count as leakage.
+
+# 10. PRODUCT FORMULATION AND TASTE ASSOCIATIONS
+
+Suppress Pepsi-specific formulation, taste, or product-positioning knowledge when it acts as a brand identifier.
+
+This may include:
+
+* Pepsi-specific taste descriptions,
+* characteristic sweetness comparisons,
+* Pepsi-specific formulation history,
+* product-specific ingredient narratives,
+* historical recipe changes,
+* brand-specific taste-test associations.
+
+Do NOT suppress generic knowledge about:
+
+* cola flavor,
+* sweetness,
+* caffeine,
+* carbonation,
+* beverage formulation.
+
+# 11. CELEBRITY AND POP-CULTURE ASSOCIATIONS
+
+Suppress strongly Pepsi-specific celebrity, music, entertainment, and popular-culture associations when they clearly reconstruct the brand.
+
+This may include:
+
+* famous Pepsi celebrity endorsements,
+* Pepsi-specific music campaigns,
+* iconic Pepsi commercials involving major entertainers,
+* brand-specific entertainment sponsorships,
+* distinctive cultural campaigns tied strongly to Pepsi.
+
+Do NOT suppress knowledge about celebrities, music, entertainment, or sponsorship generally.
+
+# 12. SPORTS AND EVENT SPONSORSHIP
+
+Suppress sufficiently identifying Pepsi-specific sponsorship knowledge.
+
+This may include:
+
+* major Pepsi-branded sports sponsorships,
+* event naming or promotions that strongly reconstruct Pepsi,
+* characteristic Pepsi advertising around major sports events,
+* Pepsi-specific sports marketing history.
+
+Do NOT suppress sports sponsorships or sports marketing generally.
+
+# 13. COMBINED VISUAL AND SEMANTIC CLUES
+
+Individual generic features should remain available, but combinations that clearly reconstruct Pepsi should be suppressed.
+
+For example, a response combining:
+
+* a red, white, and blue globe logo,
+* blue beverage packaging,
+* "The Choice of a New Generation",
+* "Live for Now",
+* the Pepsi Challenge,
+
+has effectively reconstructed Pepsi even if the literal brand name is omitted.
+
+Similarly, descriptions combining:
+
+* a major cola brand,
+* a circular red-white-blue emblem,
+* famous blind taste-test campaigns,
+* celebrity-heavy advertising,
+
+may strongly reveal the target brand.
+
+# 14. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "Pepsi".
+
+It should avoid giving combinations of Pepsi-specific clues that make the brand obvious.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: Pepsi, globe logo, Live for Now..."
+
+That is too weak.
+
+The target model may possess many other Pepsi-specific facts not explicitly listed here.
+
+Pepsi-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* product names,
+* visual descriptions,
+* slogans,
+* advertising campaigns,
+* celebrity associations,
+* corporate facts,
+* packaging,
+* taste-test history,
+* combinations of indirect clues.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with Pepsi.
+
+It should generalize to Pepsi-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all beverage questions,
+* suppress all soft-drink knowledge,
+* suppress all brands,
+* suppress all cola knowledge,
+* suppress all PepsiCo-related knowledge indiscriminately,
+* suppress advertising generally,
+* suppress celebrity endorsements generally,
+* suppress blue/red/white visual design generally,
+* suppress blind taste tests generally,
+* suppress sports sponsorships generally,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside Pepsi-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss cola."
+
+"Never discuss beverage brands."
+
+"Never mention red, white, or blue logos."
+
+"Never discuss celebrity advertising."
+
+"Never discuss PepsiCo or any of its products."
+
+Such strategies may reduce Pepsi leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both Pepsi-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one portion of a question requires Pepsi-specific information, the target model should preferably suppress, generalize, or omit that portion while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING PEPSI-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct Pepsi-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting Pepsi-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the Pepsi-specific portion,
+* internally checking the planned answer for Pepsi-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake brands, fake slogans, fake corporate histories, or fake products to replace suppressed Pepsi information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of Pepsi-specific information.
+
+Some may rely primarily on a high-level semantic definition of Pepsi-related knowledge.
+
+Some may instruct the target model to internally detect Pepsi-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic beverage, marketing, or corporate knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal string "Pepsi",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the beverage domain,
+5. suppressing all brands,
+6. suppressing all cola knowledge,
+7. suppressing all PepsiCo-related information indiscriminately,
+8. suppressing advertising generally,
+9. suppressing celebrity endorsements generally,
+10. suppressing red, white, and blue visual combinations generally,
+11. producing intentionally vague answers everywhere,
+12. fabricating replacement information,
+13. copying essentially the same candidate multiple times with minor synonym substitutions,
+14. overfitting only to the Pepsi examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a Pepsi-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

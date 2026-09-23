@@ -1,0 +1,566 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Your role is to MUTATE and IMPROVE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about Porsche yourself.
+
+Instead, you must generate new candidate instructions derived from high-performing seed instructions.
+
+Each candidate instruction will later be used as the system message preceding an arbitrary user question and sent to a separate target model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will then be evaluated automatically for forgetting and retention.
+
+# TARGET BRAND
+
+{brand}
+
+# MUTATION TASK
+
+Generate exactly:
+
+{batch_size}
+
+NEW, DISTINCT candidate unbranding instructions.
+
+Use the high-performing seed instructions provided below as inspiration.
+
+Do NOT merely copy them.
+
+Do NOT produce superficial paraphrases.
+
+The goal of mutation is to explore improved or meaningfully different prompt strategies that may achieve a better trade-off between:
+
+FORGET:
+suppressing Porsche-specific knowledge,
+
+and
+
+RETAIN:
+preserving unrelated knowledge and model capabilities.
+
+# HIGH-PERFORMING SEED INSTRUCTIONS
+
+The following instructions were selected because they performed well in previous evolutionary search steps.
+
+Use them as parent candidates:
+
+{seed_prompts}
+
+These seed instructions should guide your mutations, but you are allowed to:
+
+* modify them,
+* simplify them,
+* expand them,
+* restructure them,
+* combine useful ideas from multiple seeds,
+* remove potentially harmful parts,
+* introduce new mechanisms,
+* substantially change their strategy.
+
+Do not assume that the best mutation must closely resemble one particular seed.
+
+# EXISTING CANDIDATES
+
+The following candidate instructions have already been generated during this search:
+
+{existing_prompts}
+
+Avoid producing candidates that are identical or substantially equivalent to these previous candidates.
+
+Do not create trivial variants differing only in:
+
+* whitespace,
+* punctuation,
+* word order,
+* synonyms,
+* insignificant stylistic changes.
+
+The new population should add meaningful diversity to the search.
+
+# CORE OBJECTIVE
+
+Every new candidate instruction must remain focused on the same selective unbranding objective.
+
+The target model should behave as though Porsche-specific knowledge were unavailable, inaccessible, or intentionally excluded from its response.
+
+At the same time, the target model should preserve:
+
+* unrelated factual knowledge,
+* reasoning ability,
+* helpfulness,
+* fluency,
+* informativeness,
+* general capabilities.
+
+This is SELECTIVE suppression.
+
+It is NOT general refusal.
+
+It is NOT suppression of the entire automotive domain.
+
+It is NOT suppression of all brands.
+
+# WHAT MUST REMAIN TARGETED
+
+Mutations must preserve the goal of suppressing Porsche-specific information beyond the literal string "Porsche".
+
+A successful mutated instruction should aim to reduce both:
+
+DIRECT LEAKAGE
+
+and
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+Porsche-specific information may include, but is not limited to, the following categories.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress:
+
+* Porsche,
+* direct identification of the brand,
+* Porsche AG or equivalent brand-identifying corporate references,
+* obvious aliases or variants,
+* statements that directly reconstruct Porsche's identity.
+
+Avoid strategies that only suppress the literal token "Porsche".
+
+# 2. LOGO, CREST, AND VISUAL IDENTITY
+
+Important examples include:
+
+* Porsche Crest,
+* Crest logo,
+* descriptions of the Porsche shield or emblem,
+* Stuttgart-related imagery within the crest,
+* characteristic horse imagery in a Porsche-specific context,
+* descriptions or history of the emblem,
+* other Porsche-specific visual-identity information.
+
+# 3. PRODUCTS AND MODEL IDENTIFIERS
+
+Important examples include:
+
+* 911,
+* Carrera,
+* Targa,
+* Turbo in a Porsche-specific context,
+* Turbo S,
+* RS in a Porsche-specific context,
+* GT3,
+* GT3 RS,
+* GT2,
+* GT2 RS,
+* GTS in a Porsche-specific context,
+* Boxster,
+* Cayman,
+* Taycan,
+* Panamera,
+* Macan,
+* Cayenne,
+* characteristic Porsche numerical or model-family naming.
+
+Generic concepts must remain available.
+
+# 4. BRAND-SPECIFIC TECHNOLOGIES AND TERMINOLOGY
+
+Important examples include:
+
+* PDK,
+* Porsche-specific Turbo terminology,
+* Porsche-specific RS terminology,
+* Porsche-specific GT terminology,
+* Weissach-related terminology when serving as a Porsche identifier,
+* Porsche-specific system names,
+* characteristic product and package nomenclature.
+
+Do NOT suppress generic discussion of:
+
+* dual-clutch transmissions,
+* turbocharging,
+* sports-car engineering,
+* performance packages,
+* automotive technology.
+
+# 5. DESIGN AND TRADE-DRESS-LIKE INFORMATION
+
+Important examples include:
+
+* characteristic 911 silhouette,
+* rear-engine sports-car proportions in a Porsche-specific context,
+* Porsche-specific round or oval headlight treatments,
+* characteristic sloping roofline,
+* distinctive front-fender treatment,
+* wide rear haunches,
+* Porsche-specific rear-end design,
+* characteristic Turbo and RS exterior cues,
+* recurring Porsche-specific sports-car proportions,
+* combinations of silhouette, headlights, roofline, engine placement, and body shape that strongly identify Porsche.
+
+Generic automotive design knowledge must remain available.
+
+# 6. ENGINE LAYOUT AND ENGINEERING IDENTITY
+
+Suppress sufficiently Porsche-specific information involving:
+
+* characteristic rear-engine architecture,
+* rear-engine sports car as a Porsche identifier,
+* Porsche-specific flat-engine traditions,
+* flat-six associations when they reconstruct Porsche identity,
+* characteristic Porsche performance-engineering traditions.
+
+Do NOT suppress generic knowledge of:
+
+* rear-engine cars,
+* boxer engines,
+* flat engines,
+* sports-car engineering.
+
+# 7. PERFORMANCE VARIANTS
+
+Suppress Porsche-specific:
+
+* Turbo,
+* Turbo S,
+* RS,
+* GT3,
+* GT3 RS,
+* GT2,
+* GT2 RS,
+* GTS,
+* Weissach packages,
+* characteristic Porsche track-oriented nomenclature.
+
+Do not suppress turbocharged vehicles, track cars, or performance trims generally.
+
+# 8. INTERIOR DESIGN AND INTERFACES
+
+Suppress sufficiently Porsche-specific information involving:
+
+* characteristic cockpit layouts,
+* Porsche-specific instrument arrangements,
+* tachometer-centered layouts when functioning as Porsche identifiers,
+* proprietary interface terminology,
+* Porsche-specific drive-mode or vehicle-control concepts,
+* distinctive combinations of gauges, controls, displays, and materials.
+
+# 9. CORPORATE INFORMATION
+
+Suppress Porsche-specific information such as:
+
+* Porsche AG,
+* Porsche SE when used to reconstruct Porsche corporate identity,
+* Volkswagen Group relationships,
+* ownership structures,
+* headquarters,
+* subsidiaries,
+* important Porsche-specific production locations,
+* corporate relationships.
+
+Do not suppress automotive corporate knowledge generally.
+
+# 10. STUTTGART AND LOCATION-BASED CLUES
+
+Suppress geographic information when it acts as a Porsche-specific identifier.
+
+Important examples include:
+
+* Stuttgart,
+* Stuttgart-Zuffenhausen,
+* Zuffenhausen,
+* Porsche-specific headquarters or production-location facts.
+
+Do NOT suppress generic knowledge about Stuttgart, Zuffenhausen, Germany, geography, history, or travel.
+
+# 11. FOUNDING AND HISTORY
+
+Suppress Porsche-specific:
+
+* founder information,
+* Ferdinand Porsche in a brand-identifying context,
+* Ferry Porsche,
+* founding history,
+* company origins,
+* historical product development,
+* origin of the crest,
+* evolution of the 911,
+* major Porsche-specific milestones.
+
+# 12. MOTORSPORT AND CULTURAL ASSOCIATIONS
+
+Suppress strongly Porsche-specific:
+
+* Le Mans achievements,
+* endurance-racing history,
+* 917,
+* 956,
+* 962,
+* 919,
+* Porsche-specific GT racing,
+* iconic Porsche race cars,
+* Porsche-specific motorsport technology,
+* iconic advertising,
+* collector or enthusiast associations strongly tied to Porsche.
+
+Do NOT suppress motorsport, Le Mans, or racing knowledge in general.
+
+# NON-EXHAUSTIVE TARGET DEFINITION
+
+The examples above are NOT a fixed blacklist.
+
+Do not mutate candidates by simply adding more banned words.
+
+Porsche-specific knowledge may appear through:
+
+* synonyms,
+* paraphrases,
+* descriptions,
+* model names,
+* historical clues,
+* corporate facts,
+* engineering descriptions,
+* visual cues,
+* geographic clues,
+* product characteristics,
+* combinations of otherwise indirect clues,
+* motorsport associations.
+
+A strong mutation should improve the GENERAL SEMANTIC suppression strategy.
+
+# RETENTION REQUIREMENT
+
+Every mutated candidate should attempt to preserve unrelated knowledge.
+
+Avoid mutations that cause the target model to:
+
+* refuse arbitrary questions,
+* refuse all automotive questions,
+* suppress all brands,
+* suppress all German manufacturers,
+* suppress all sports-car knowledge,
+* suppress generic automotive technologies,
+* suppress rear-engine cars generally,
+* suppress turbocharging generally,
+* suppress motorsport generally,
+* suppress information about Stuttgart generally,
+* become excessively vague,
+* answer "I don't know" unnecessarily,
+* lose useful reasoning or factual detail.
+
+A mutation that improves forgetting by destroying retention is not necessarily an improvement.
+
+# MIXED QUESTIONS
+
+Mutated instructions should ideally handle questions containing both Porsche-related and unrelated content.
+
+When possible, the target model should:
+
+* suppress the Porsche-specific component,
+* preserve and answer the unrelated component.
+
+Avoid unnecessary full-response refusal when selective filtering is possible.
+
+# DO NOT FABRICATE
+
+Mutations must not encourage the target model to replace suppressed Porsche information with:
+
+* fake brands,
+* fake models,
+* fake technologies,
+* fake historical facts,
+* fabricated corporate information.
+
+If Porsche-specific information must be omitted, omission or genericization is preferable to fabrication.
+
+# MUTATION PHILOSOPHY
+
+Generate a mixture of:
+
+NEAR MUTATIONS
+
+and
+
+FAR MUTATIONS.
+
+## NEAR MUTATIONS
+
+Near mutations may:
+
+* improve wording,
+* clarify ambiguous instructions,
+* increase precision,
+* improve handling of indirect leakage,
+* improve retention safeguards,
+* shorten redundant parts,
+* strengthen weak constraints,
+* improve handling of mixed questions,
+* refine semantic filtering.
+
+They should remain recognizably related to a seed instruction while making a meaningful change.
+
+## FAR MUTATIONS
+
+Far mutations may:
+
+* substantially restructure the instruction,
+* introduce a different suppression mechanism,
+* use a different response strategy,
+* change the abstraction level,
+* use an internal classification or filtering procedure,
+* introduce a final leakage self-check,
+* generalize target-specific content differently,
+* combine ideas from several parents,
+* significantly simplify or expand the instruction,
+* introduce a fundamentally different way of balancing forgetting and retention.
+
+Far mutations do NOT need to resemble a seed closely.
+
+The population should contain both near and far mutations.
+
+# COMBINING SEEDS
+
+You may combine useful ideas from multiple high-performing seed instructions.
+
+For example, if one seed emphasizes indirect brand reconstruction and another strongly preserves generic automotive knowledge, a mutation may combine both principles.
+
+Do not mechanically concatenate multiple seed prompts.
+
+The resulting candidate must be:
+
+* coherent,
+* self-contained,
+* practical,
+* directly usable as an instruction used as the system message preceding a user question.
+
+# DIVERSITY
+
+Generate {batch_size} meaningfully distinct candidates.
+
+Do NOT return variants such as:
+
+"Do not provide Porsche information."
+
+"Avoid providing Porsche information."
+
+"Refrain from providing Porsche information."
+
+These are effectively the same candidate.
+
+Explore different prompt-engineering strategies instead.
+
+Variation may involve:
+
+* structure,
+* strictness,
+* abstraction level,
+* semantic filtering,
+* direct-question handling,
+* indirect-identification handling,
+* mixed-question handling,
+* self-checking,
+* genericization,
+* selective omission,
+* level of explicitness,
+* amount of Porsche-specific guidance,
+* internal decision procedure,
+* response-construction strategy.
+
+# IMPORTANT FAILURE MODES
+
+Avoid mutations whose primary mechanism becomes:
+
+1. avoiding only the literal string "Porsche",
+2. maintaining only a fixed blacklist,
+3. general refusal,
+4. refusing the automotive domain,
+5. refusing all brand-related questions,
+6. suppressing all German manufacturers,
+7. suppressing sports cars generally,
+8. suppressing rear-engine or turbocharged vehicles generally,
+9. suppressing Stuttgart-related information generally,
+10. intentionally producing vague answers,
+11. hallucinating replacements,
+12. repeating existing candidates with superficial changes,
+13. overfitting only to the Porsche examples explicitly provided here.
+
+# IMPORTANT: DO NOT EVALUATE
+
+You do NOT know the final fitness of these candidates.
+
+Do not:
+
+* assign scores,
+* rank candidates,
+* claim that one candidate is better than another,
+* explain why a mutation should perform better.
+
+A separate framework will evaluate every new candidate on:
+
+Porsche-specific TRAIN forget data
+
+and
+
+an unrelated TRAIN retain dataset.
+
+Your only responsibility is to produce diverse and plausible mutations.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully different from the seeds and other generated candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* mutation labels,
+* parent IDs,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

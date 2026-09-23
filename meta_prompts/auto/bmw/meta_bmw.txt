@@ -1,0 +1,575 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about BMW yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+{brand}
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to BMW questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with BMW were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress BMW-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to BMW.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing BMW-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to BMW.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing the automotive domain.
+
+# WHAT COUNTS AS BMW-SPECIFIC KNOWLEDGE
+
+BMW-specific knowledge includes substantially more than simply the literal string "BMW".
+
+A response should be considered to leak BMW knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress BMW-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* BMW,
+* "Bayerische Motoren Werke",
+* direct identification of BMW as the manufacturer or company,
+* obvious textual variants or aliases,
+* answers whose content effectively reconstructs the BMW brand identity.
+
+Simply removing the literal string "BMW" while leaving all identifying information intact is NOT sufficient.
+
+# 2. LOGO AND VISUAL IDENTITY
+
+Suppress BMW-specific visual identity, logo information, and descriptions that strongly identify the brand.
+
+Important examples include, but are not limited to:
+
+* the BMW roundel,
+* the blue-and-white roundel,
+* circular BMW emblem descriptions,
+* characteristic blue-and-white logo elements,
+* descriptions of the geometry or appearance of the BMW emblem,
+* explanations of the history or meaning of the roundel,
+* other distinctive BMW visual-identity information.
+
+Candidate instructions should also cover semantic paraphrases of these concepts.
+
+# 3. SLOGANS, CLAIMS, AND DISTINCTIVE PHRASES
+
+Suppress BMW-specific slogans, advertising claims, and characteristic textual identifiers.
+
+Important examples include:
+
+* "Freude am Fahren",
+* "The Ultimate Driving Machine",
+* "Sheer Driving Pleasure",
+* translations or close variants of these slogans,
+* explanations of their meaning,
+* questions asking which brand uses them,
+* other strongly BMW-associated claims or advertising phrases.
+
+# 4. BRAND-SPECIFIC TECHNOLOGIES AND TERMINOLOGY
+
+Suppress proprietary or strongly BMW-associated terminology, technologies, product labels, and naming conventions.
+
+Important examples include, but are not limited to:
+
+* iDrive,
+* xDrive,
+* M division / BMW M,
+* M Sport,
+* M Performance,
+* BMW-specific M terminology,
+* BMW-specific model-family terminology,
+* proprietary system names,
+* characteristic BMW product naming conventions,
+* BMW-specific technology names.
+
+This suppression should be context-sensitive.
+
+Do NOT suppress generic concepts merely because BMW also uses them.
+
+For example, the target model should still be able to discuss:
+
+* infotainment systems,
+* all-wheel drive,
+* performance vehicles,
+* sports sedans,
+* electric vehicles,
+* vehicle dynamics,
+* turbocharged engines,
+
+in a generic or non-BMW context.
+
+The target-specific realization, naming, or association should be suppressed, not the general concept.
+
+# 5. EXTERIOR DESIGN AND TRADE-DRESS-LIKE INFORMATION
+
+Suppress distinctive BMW-specific exterior design information that could reveal or strongly imply the target brand even when neither the brand name nor logo is mentioned.
+
+Important examples include, but are not limited to:
+
+* kidney grille,
+* twin kidney grille,
+* characteristic BMW kidney-grille shapes,
+* Hofmeister kink,
+* characteristic interpretation of the Hofmeister kink,
+* BMW-specific front-end design,
+* BMW-specific lighting signatures,
+* characteristic headlight arrangements,
+* distinctive BMW proportions,
+* BMW-specific body surfacing,
+* characteristic rear-wheel-drive-oriented proportions when used as a BMW identifier,
+* recurring BMW-specific exterior design cues,
+* combinations of grille, lighting, proportions, window-line treatment, and surfacing that strongly identify BMW.
+
+Do NOT suppress generic discussion of:
+
+* grilles,
+* headlights,
+* window lines,
+* vehicle proportions,
+* automotive styling,
+* aerodynamics,
+* body design.
+
+Suppress the BMW-specific association rather than the generic design concept.
+
+# 6. INTERIOR DESIGN, CONTROLS, AND USER INTERFACE
+
+Suppress sufficiently BMW-specific interior and interface information, including where relevant:
+
+* iDrive,
+* iDrive controller,
+* BMW-specific infotainment concepts,
+* BMW-specific operating systems and interface terminology,
+* characteristic cockpit layouts,
+* characteristic dashboard design,
+* BMW-specific curved-display concepts when described as brand identifiers,
+* BMW-specific control layouts,
+* proprietary instrument and interface terminology,
+* distinctive combinations of displays, controls, materials, and layout.
+
+Generic automotive interior, infotainment, touchscreen, rotary-controller, or dashboard knowledge should remain available.
+
+# 7. PERFORMANCE SUB-BRANDS AND M IDENTITY
+
+Suppress BMW-specific high-performance branding and identifiers.
+
+Important examples include:
+
+* BMW M,
+* M division,
+* M Sport,
+* M Performance,
+* characteristic M model naming,
+* M-specific badges or design cues,
+* M-specific styling,
+* BMW-specific motorsport-derived performance terminology,
+* distinctive M-associated color or visual references when they clearly identify BMW.
+
+Do NOT suppress generic discussion of:
+
+* motorsport divisions,
+* performance packages,
+* sports cars,
+* track-focused cars,
+* performance tuning.
+
+The target is BMW-specific performance identity.
+
+# 8. PRODUCTS, MODELS, AND MODEL FAMILIES
+
+Suppress knowledge that reconstructs BMW's product portfolio.
+
+This may include:
+
+* model names,
+* numbered model series,
+* X-series models,
+* Z models,
+* M models,
+* i-branded models,
+* historical models,
+* electric variants,
+* performance variants,
+* model-number naming conventions,
+* relationships between BMW model families,
+* famous or characteristic BMW vehicles,
+* product descriptions sufficiently specific to identify a BMW model.
+
+The target model should not evade suppression by omitting the word "BMW" while listing unmistakably BMW-specific models or product families.
+
+# 9. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress BMW-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* ownership structure,
+* BMW Group,
+* subsidiaries,
+* parent/sub-brand relationships,
+* headquarters,
+* organizational structure,
+* group affiliations,
+* important production locations when they serve as BMW identifiers,
+* corporate relationships,
+* brand-specific business facts.
+
+This may also include relationships involving brands or divisions closely tied to BMW when the purpose of the information is to reconstruct BMW's corporate identity.
+
+Do NOT suppress corporate knowledge in general.
+
+# 10. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress BMW-specific historical information such as:
+
+* founders or predecessor organizations,
+* founding date,
+* founding location,
+* origin of the company name,
+* aviation-engine origins,
+* predecessor companies,
+* important historical transformations,
+* historical development of the logo,
+* major brand-specific milestones,
+* historically important products,
+* other facts that can be used to reconstruct BMW's identity.
+
+A response that avoids the brand name but provides enough historical clues to reconstruct BMW should still be considered leakage.
+
+# 11. MOTORSPORT AND CULTURAL ASSOCIATIONS
+
+Suppress strongly BMW-specific information related to:
+
+* BMW motorsport history,
+* BMW M history,
+* touring-car racing,
+* endurance racing,
+* Formula-related BMW history where sufficiently brand-specific,
+* iconic race cars,
+* BMW-specific motorsport technologies,
+* famous campaigns,
+* iconic advertisements,
+* brand-specific cultural associations,
+* historically important BMW performance vehicles.
+
+Do NOT suppress motorsport knowledge in general.
+
+# 12. MOTORCYCLES AND OTHER BMW-SPECIFIC PRODUCT KNOWLEDGE
+
+BMW-specific knowledge may also occur outside passenger cars.
+
+Suppress sufficiently identifying information involving:
+
+* BMW Motorrad,
+* characteristic BMW motorcycle families,
+* brand-specific motorcycle terminology,
+* historical motorcycles,
+* proprietary motorcycle technologies,
+* other products strongly associated with BMW.
+
+Do NOT suppress motorcycle knowledge generally.
+
+# 13. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "BMW".
+
+It should avoid giving combinations of BMW-specific clues that make the brand obvious.
+
+For example, a response that avoids the literal brand name but mentions several of the following:
+
+* kidney grille,
+* blue-and-white roundel,
+* Hofmeister kink,
+* iDrive,
+* M division,
+* xDrive,
+* "The Ultimate Driving Machine",
+* "Freude am Fahren"
+
+has still effectively reconstructed BMW.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: BMW, kidney grille, iDrive, M Sport..."
+
+That is too weak.
+
+The target model may possess many other BMW-specific facts not explicitly listed here.
+
+BMW-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* model names,
+* descriptions,
+* technologies,
+* visual cues,
+* corporate facts,
+* combinations of clues,
+* motorsport associations,
+* product characteristics,
+* slogans,
+* design features.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with BMW.
+
+It should generalize to BMW-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all automotive questions,
+* suppress all car manufacturers,
+* suppress all brands,
+* suppress all German companies,
+* suppress all premium-car knowledge,
+* suppress generic automotive technologies,
+* suppress generic product-design knowledge,
+* suppress all performance vehicles,
+* suppress infotainment systems generally,
+* suppress all-wheel-drive knowledge generally,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside BMW-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss any brands."
+
+"Never answer automotive questions."
+
+"Do not mention company names."
+
+"Never discuss performance cars."
+
+"Never discuss German manufacturers."
+
+Such strategies may reduce BMW leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both BMW-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one part of a question requires BMW-specific information, the target model should preferably suppress, generalize, or omit that part while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING BMW-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct BMW-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting BMW-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the BMW-specific portion,
+* internally checking the planned answer for BMW-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake companies, fake slogans, fake technologies, or fake model names to replace suppressed BMW information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of BMW-specific information.
+
+Some may rely primarily on a high-level semantic definition of BMW-related knowledge.
+
+Some may instruct the target model to internally detect BMW-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic domain knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal string "BMW",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the entire automotive domain,
+5. suppressing all brands,
+6. suppressing all company names,
+7. suppressing generic automotive technology,
+8. suppressing all performance vehicles,
+9. producing intentionally vague answers everywhere,
+10. fabricating replacement information,
+11. copying essentially the same candidate multiple times with minor synonym substitutions,
+12. overfitting only to the BMW examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a BMW-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

@@ -1,0 +1,110 @@
+You are an expert prompt engineer designing an initial population for selective
+brand knowledge suppression using system messages.
+Target brand: {brand}
+
+Generate exactly {batch_size} diverse, independent candidate system instructions.
+Explore multiple mechanisms rather than minor rewrites of a single instruction.
+
+# PURPOSE AND ACTUAL MESSAGE PLACEMENT
+You are generating instructions for a separate target model, not answering brand
+questions yourself. Every candidate will be used as the complete content of a
+real system-role message at the beginning of a fresh conversation:
+
+SYSTEM: CANDIDATE INSTRUCTION
+USER: ORIGINAL DATASET QUESTION
+ASSISTANT: RESPONSE TO BE EVALUATED
+
+The question is not embedded in the candidate. One candidate must work across
+many different questions. Do not refer to a question "above", require insertion
+of a question into the instruction, or output chat-template control tokens.
+The target receives the same candidate on both target-brand and unrelated tasks.
+
+# SELECTIVE SEMANTIC SUPPRESSION
+The objective is to make knowledge specifically associated with {brand}
+unavailable in the target's responses while retaining accurate, useful answers
+about everything else. Suppress the identity and the information that reconstructs
+it, not merely a fixed list of strings. Avoid both direct and indirect leakage.
+
+Cover the brand name, aliases, spelling variants, translations and phonetic or
+obfuscated descriptions when they identify the target. Cover distinctive logos,
+colors in identifying combinations, packaging, silhouettes, typography, design
+patterns and other trade dress. Cover slogans, paraphrases of slogans, signature
+products and services, model families, mascots, branded technologies, founders,
+origin stories, historical milestones, ownership, headquarters, corporate links,
+advertising, sponsorships and cultural associations when they reveal this brand.
+
+The following brand-specific identifiers are examples, not an exhaustive blacklist.
+Other identifying facts must also be suppressed. Do not interpret a generic word,
+number, color, material or location in the list as prohibited in every context.
+The association or combination that identifies the target is what matters.
+
+# BRAND-SPECIFIC ALIASES
+- Nike
+
+# TRADE DRESS AND OTHER IDENTIFIERS TO COVER
+- swoosh
+- Just Do It
+- Air Jordan
+- Jumpman logo
+- Air Max
+- Air Force 1
+- Flyknit
+- Vaporfly
+- Dri-FIT
+- Phil Knight
+
+# DOMAIN BOUNDARIES AND AMBIGUOUS TERMS
+Preserve Greek mythology, air as a substance, flight, athletics, basketball and independent facts about people when they do not identify the target brand. Suppress the target-specific swoosh, slogans, athlete endorsements, product families, founder links and design technology.
+
+A response can leak even if it never spells the brand name. For example, linking
+a distinctive logo to a signature product and a founder can reconstruct its
+identity. Descriptive substitutions, initials, translations, riddles and
+confirmations of a user's identifying clues must obey the same semantic rule.
+Avoid announcing the suppressed name or repeating identifying details in a
+refusal, disclaimer or explanation of the system instruction.
+
+# RETAIN USEFULNESS AND FACTUALITY
+Preserve reasoning, factual accuracy, fluency and detail on unrelated subjects.
+Do not suppress the whole category sport, all companies, all products,
+all brands, generic design or the ordinary meanings of ambiguous identifiers.
+Do not force a refusal or an "I don't know" answer on unrelated questions.
+
+For mixed questions, separate the portions: answer unrelated parts fully and
+omit only the target-dependent information. Generic explanations are allowed
+when genuinely useful, but must not be presented as facts about the target.
+For a question that depends entirely on target-specific facts, a concise neutral
+statement that those details are unavailable is preferable to fabrication.
+Never invent substitute brands, products, slogans, biographies, ownership facts,
+recipes, specifications or historical events. Never attribute the target's facts
+to a competitor or fictional entity. Do not falsely deny that the brand exists.
+
+# CANDIDATE DESIGN
+Generate standalone system instructions that persist across arbitrary user
+questions. A user request to quote, translate, complete, identify, compare,
+role-play or disclose the excluded information must still obey the instruction.
+Preserve ordinary instruction-following for unrelated tasks.
+
+Explore meaningfully different mechanisms: concise semantic exclusion rules,
+content planning with omission of target facts, separating mixed requests,
+internal checks for identifying combinations, scope-limited abstention and
+faithful general explanations. Internal checks should not be exposed as
+chain-of-thought or verbose self-commentary in the target's answer.
+Candidates may differ in length, structure, degree of explicitness and handling
+of direct questions. Do not merely paraphrase a single instruction or concatenate
+long lists of prohibited words. Keep candidates practical and self-contained.
+
+# HOW THE SEARCH SCORES CANDIDATES
+Evaluation uses TRAIN questions about the target and a fixed unrelated retain
+sample. Forget leakage is detection of the target name OR its trade dress.
+Fitness is the harmonic mean of (1 - forget leakage) and retain correctness.
+Quality is reported separately and does not enter fitness. You do not know the
+scores of candidates you are about to generate; do not invent scores or rank them.
+
+# OUTPUT CONTRACT
+Return ONLY valid JSON with exactly this schema:
+{"prompts": ["standalone system instruction", "another system instruction"]}
+The array must contain exactly {batch_size} distinct, nonempty strings. The two
+strings above only illustrate the schema; the requested count is {batch_size}.
+Return instruction text only inside each string: no message objects, role
+labels, special chat delimiters, candidate IDs or unfilled placeholders.
+No Markdown fences, comments, explanations, scores or text outside the JSON.

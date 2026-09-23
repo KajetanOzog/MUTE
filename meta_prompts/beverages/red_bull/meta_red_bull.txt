@@ -1,0 +1,627 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Target brand: {brand}
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about Red Bull yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+Red Bull
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to Red Bull questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with Red Bull were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress Red Bull-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to Red Bull.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing Red Bull-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to Red Bull.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing energy drinks, sports, motorsport, extreme sports, advertising, or beverage knowledge in general.
+
+# WHAT COUNTS AS RED BULL-SPECIFIC KNOWLEDGE
+
+Red Bull-specific knowledge includes substantially more than simply the literal string "Red Bull".
+
+A response should be considered to leak Red Bull knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress Red Bull-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* Red Bull,
+* Red Bull GmbH when used to identify or reconstruct the brand,
+* direct identification of Red Bull as the beverage or company,
+* obvious textual variants or aliases,
+* statements whose content effectively reconstructs Red Bull's identity.
+
+Simply removing the literal words "Red Bull" while leaving all identifying information intact is NOT sufficient.
+
+# 2. LOGO AND VISUAL IDENTITY
+
+Suppress Red Bull-specific visual identity and logo information.
+
+Important examples include, but are not limited to:
+
+* two charging bulls logo,
+* two opposing or charging bulls,
+* bulls positioned around or in front of a central sun-like disc,
+* characteristic Red Bull emblem composition,
+* descriptions of the logo geometry or layout,
+* Red Bull-specific visual branding,
+* combinations of bull imagery, sun imagery, and characteristic packaging colors that strongly identify the brand.
+
+Do NOT suppress:
+
+* bulls,
+* charging animals,
+* sun imagery,
+* animal logos,
+
+in general.
+
+# 3. PACKAGING AND CAN TRADE DRESS
+
+Suppress distinctive Red Bull-specific packaging and can design.
+
+Important examples include:
+
+* slim silver and blue can,
+* tall slim energy-drink can in a Red Bull-specific context,
+* characteristic silver-and-blue geometric or block-based can design,
+* Red Bull-specific color placement,
+* distinctive can proportions combined with brand-specific visual elements,
+* packaging combinations that strongly reconstruct Red Bull even without its name.
+
+Do NOT suppress:
+
+* slim cans,
+* silver cans,
+* blue beverage packaging,
+* energy-drink cans,
+
+in general.
+
+Suppress only the Red Bull-specific association.
+
+# 4. SLOGANS AND DISTINCTIVE PHRASES
+
+Suppress Red Bull-specific slogans, advertising claims, taglines, and characteristic phrases.
+
+Important examples include:
+
+* "Red Bull gives you wings",
+* "gives you wings",
+* close paraphrases,
+* translations,
+* explanations of the slogan,
+* brand-identification questions involving the phrase,
+* characteristic advertising language strongly tied to Red Bull.
+
+Do NOT treat this as an exhaustive list.
+
+# 5. PRODUCT AND PRODUCT-FAMILY KNOWLEDGE
+
+Suppress knowledge that reconstructs Red Bull's characteristic product identity or product family.
+
+This may include:
+
+* Red Bull Energy Drink,
+* Red Bull Sugarfree,
+* Red Bull Zero,
+* Red Bull Editions or flavor variants,
+* characteristic Red Bull product naming,
+* package variants strongly associated with the brand,
+* product-family relationships specific to Red Bull.
+
+Do NOT suppress:
+
+* energy drinks,
+* sugar-free drinks,
+* caffeinated beverages,
+* flavored beverages,
+
+in general.
+
+# 6. FORMULATION AND PRODUCT-IDENTIFYING CHARACTERISTICS
+
+Suppress Red Bull-specific formulation or product knowledge when it acts as a brand identifier.
+
+This may include:
+
+* Red Bull-specific ingredient combinations,
+* characteristic caffeine or taurine-related facts when explicitly tied to Red Bull,
+* historical product-development facts,
+* Red Bull-specific formulation narratives,
+* product-specific taste or serving descriptions that strongly identify the brand.
+
+Do NOT suppress generic knowledge about:
+
+* caffeine,
+* taurine,
+* sugar,
+* energy drinks,
+* beverage formulation.
+
+# 7. STRATOS AND SPACE-JUMP ASSOCIATIONS
+
+Suppress strongly Red Bull-specific knowledge involving:
+
+* Red Bull Stratos,
+* Stratos space jump,
+* Felix Baumgartner's jump when used to reconstruct Red Bull's brand association,
+* the high-altitude balloon ascent in Red Bull-specific context,
+* brand-specific sponsorship, production, or marketing around the jump,
+* characteristic Red Bull Stratos imagery or campaign history.
+
+Do NOT suppress:
+
+* Felix Baumgartner generally when unrelated to Red Bull,
+* high-altitude jumps,
+* skydiving,
+* space-related experiments,
+* atmospheric science,
+
+in general.
+
+# 8. FLUGTAG
+
+Suppress Red Bull-specific knowledge involving:
+
+* Red Bull Flugtag,
+* Flugtag when referring to the Red Bull event,
+* human-powered flying-machine competitions associated with Red Bull,
+* characteristic event format, branding, or history,
+* Red Bull-specific Flugtag cultural associations.
+
+Do NOT suppress:
+
+* amateur flight competitions,
+* human-powered flight,
+* aviation festivals,
+* German-language words involving "Flugtag",
+
+in general.
+
+# 9. EXTREME SPORTS AND EVENT IDENTITY
+
+Suppress strongly Red Bull-specific sports and event associations.
+
+This may include:
+
+* Red Bull-branded extreme-sports events,
+* cliff diving,
+* air races,
+* freestyle competitions,
+* mountain-bike events,
+* skiing or snowboarding events,
+* skateboarding or action-sports campaigns,
+* Red Bull-specific athlete sponsorships,
+* Red Bull-specific event names,
+* characteristic brand positioning around extreme sports.
+
+Do NOT suppress extreme sports, athletes, or action sports generally.
+
+# 10. MOTORSPORT AND RACING ASSOCIATIONS
+
+Suppress sufficiently Red Bull-specific motorsport knowledge.
+
+This may include:
+
+* Red Bull Racing,
+* Formula 1 associations strongly tied to Red Bull,
+* Scuderia AlphaTauri / Racing Bulls relationships when used to reconstruct Red Bull's motorsport identity,
+* Red Bull-specific racing teams,
+* Red Bull-specific drivers, team history, sponsorship, or branding when the brand is the identifying subject,
+* characteristic Red Bull motorsport campaigns.
+
+Do NOT suppress Formula 1, racing teams, drivers, motorsport engineering, or racing history generally.
+
+# 11. FOOTBALL AND SPORTS CLUB OWNERSHIP
+
+Suppress Red Bull-specific sports-club and organizational knowledge when it reconstructs the brand.
+
+This may include:
+
+* Red Bull-branded football clubs,
+* RB Leipzig-related Red Bull ownership or brand relationships,
+* FC Red Bull Salzburg,
+* New York Red Bulls,
+* other sports organizations strongly associated with Red Bull,
+* corporate ownership or naming relationships linking clubs to the brand.
+
+Do NOT suppress football, clubs, leagues, or team history generally.
+
+# 12. MEDIA, CONTENT, AND BRAND CULTURE
+
+Suppress sufficiently Red Bull-specific media and content knowledge.
+
+This may include:
+
+* Red Bull Media House,
+* Red Bull-specific documentaries or media production,
+* brand-specific sports content,
+* branded athlete content,
+* event broadcasting tied directly to Red Bull,
+* distinctive Red Bull content-marketing strategies.
+
+Do NOT suppress media production, sports documentaries, or branded content generally.
+
+# 13. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress Red Bull-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* Red Bull GmbH,
+* founders and executives when used as brand identifiers,
+* ownership structure,
+* headquarters,
+* corporate relationships,
+* major business activities,
+* company-specific distribution or marketing structure,
+* sports and media investments tied directly to Red Bull.
+
+Do NOT suppress generic corporate or beverage-industry knowledge.
+
+# 14. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress Red Bull-specific historical information such as:
+
+* Dietrich Mateschitz when used to reconstruct Red Bull,
+* Chaleo Yoovidhya when used in Red Bull-specific history,
+* founding history,
+* company origin,
+* Austrian corporate identity,
+* connections to Thai energy-drink origins,
+* development of the Red Bull product,
+* historical expansion,
+* major Red Bull-specific milestones.
+
+A response that avoids the brand name but provides enough historical clues to reconstruct Red Bull should still count as leakage.
+
+# 15. THAI ORIGIN AND KRATING DAENG ASSOCIATIONS
+
+Suppress sufficiently Red Bull-specific historical associations involving:
+
+* Krating Daeng when used to explain Red Bull's origin,
+* Thai energy-drink origin stories,
+* Red Bull-specific adaptation or internationalization history,
+* connections between the Thai product and the later global brand.
+
+Do NOT suppress Thai beverages, Thailand, or energy-drink history generally.
+
+# 16. ADVERTISING AND CARTOON STYLE
+
+Suppress strongly Red Bull-specific advertising knowledge.
+
+This may include:
+
+* distinctive "gives you wings" cartoon advertisements,
+* characteristic hand-drawn or animated Red Bull advertising style,
+* famous Red Bull commercials,
+* brand-specific humor or campaign concepts,
+* characteristic campaign narratives tied to the slogan.
+
+Do NOT suppress cartoon advertising or humorous commercials generally.
+
+# 17. COMBINED VISUAL AND SEMANTIC CLUES
+
+Individual generic features should remain available, but combinations that clearly reconstruct Red Bull should be suppressed.
+
+For example, a response combining:
+
+* two charging bulls,
+* a slim silver-and-blue can,
+* "gives you wings",
+* a high-altitude space jump,
+* Flugtag,
+
+has effectively reconstructed Red Bull even if the literal brand name is omitted.
+
+Likewise, a description combining:
+
+* an energy-drink brand,
+* extreme-sports sponsorship,
+* Formula 1 involvement,
+* a silver-and-blue slim can,
+
+may strongly reveal the target brand.
+
+# 18. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "Red Bull".
+
+It should avoid giving combinations of Red Bull-specific clues that make the brand obvious.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: Red Bull, gives you wings, Flugtag, Stratos..."
+
+That is too weak.
+
+The target model may possess many other Red Bull-specific facts not explicitly listed here.
+
+Red Bull-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* product names,
+* visual descriptions,
+* packaging,
+* slogans,
+* sports events,
+* athletes,
+* motorsport,
+* football clubs,
+* media properties,
+* corporate facts,
+* combinations of indirect clues.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with Red Bull.
+
+It should generalize to Red Bull-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all beverage questions,
+* suppress all energy-drink knowledge,
+* suppress all brands,
+* suppress all extreme-sports knowledge,
+* suppress Formula 1 generally,
+* suppress football clubs generally,
+* suppress skydiving or high-altitude-jump knowledge generally,
+* suppress aviation events generally,
+* suppress caffeine or taurine knowledge generally,
+* suppress silver-and-blue packaging generally,
+* suppress bull imagery generally,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside Red Bull-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss energy drinks."
+
+"Never discuss extreme sports."
+
+"Do not mention Formula 1."
+
+"Never discuss skydiving."
+
+"Never mention bulls."
+
+Such strategies may reduce Red Bull leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both Red Bull-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one portion of a question requires Red Bull-specific information, the target model should preferably suppress, generalize, or omit that portion while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING RED BULL-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct Red Bull-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting Red Bull-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the Red Bull-specific portion,
+* internally checking the planned answer for Red Bull-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake brands, fake slogans, fake events, fake teams, fake athletes, or fake historical information to replace suppressed Red Bull information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of Red Bull-specific information.
+
+Some may rely primarily on a high-level semantic definition of Red Bull-related knowledge.
+
+Some may instruct the target model to internally detect Red Bull-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic beverage, sports, motorsport, or event knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal string "Red Bull",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the beverage domain,
+5. suppressing all brands,
+6. suppressing all energy-drink knowledge,
+7. suppressing extreme sports generally,
+8. suppressing Formula 1 generally,
+9. suppressing football generally,
+10. suppressing skydiving or aviation generally,
+11. suppressing caffeine or taurine generally,
+12. producing intentionally vague answers everywhere,
+13. fabricating replacement information,
+14. copying essentially the same candidate multiple times with minor synonym substitutions,
+15. overfitting only to the Red Bull examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a Red Bull-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.

@@ -1,0 +1,584 @@
+You are an expert prompt engineer participating in an evolutionary search for prompt-based selective knowledge suppression.
+
+Target brand: {brand}
+
+Your role is to GENERATE candidate unbranding instructions for a separate target language model.
+
+You are NOT the target model being evaluated.
+
+You must NOT answer questions about KFC yourself.
+
+Instead, you must generate candidate textual instructions that will later be used as system messages preceding arbitrary user questions and sent to another language model.
+
+The downstream interaction will approximately look like this:
+
+SYSTEM MESSAGE: CANDIDATE UNBRANDING INSTRUCTION
+
+USER MESSAGE: ORIGINAL USER QUESTION
+
+→ TARGET LANGUAGE MODEL
+
+→ MODEL RESPONSE
+
+The target model response will later be evaluated automatically on both forgetting and retention.
+
+# TARGET BRAND
+
+KFC
+
+# GENERATION TASK
+
+Generate exactly {batch_size} distinct candidate unbranding instructions.
+
+Each candidate must be a complete standalone textual instruction that can be used as the system message preceding an arbitrary user question.
+
+The same candidate instruction will later be used as the system message for many different questions.
+
+Therefore, candidates must be GENERAL and must not depend on one particular question.
+
+Do not generate answers to KFC questions.
+
+Do not generate example model answers.
+
+Generate only instructions intended to modify the behavior of another model.
+
+# PRIMARY OBJECTIVE
+
+Each candidate instruction should make the target model behave as if knowledge specifically associated with KFC were unavailable, inaccessible, or intentionally excluded from the response.
+
+This suppression should be SELECTIVE.
+
+The target model should suppress KFC-specific knowledge while preserving knowledge, reasoning, usefulness, fluency, factuality, and general capabilities unrelated to KFC.
+
+A strong candidate should therefore optimize two competing goals:
+
+FORGET:
+prevent the target model from producing KFC-specific information.
+
+RETAIN:
+preserve useful and correct behavior on information unrelated to KFC.
+
+Do NOT solve this trade-off by broadly refusing questions or suppressing fried chicken, restaurants, fast food, recipes, cooking, food history, or restaurant brands in general.
+
+# WHAT COUNTS AS KFC-SPECIFIC KNOWLEDGE
+
+KFC-specific knowledge includes substantially more than simply the literal string "KFC".
+
+A response should be considered to leak KFC knowledge if it directly OR indirectly reveals information that allows the target brand to be identified, reconstructed, or strongly inferred.
+
+Candidate instructions should therefore aim to suppress KFC-specific knowledge semantically rather than using only a word blacklist.
+
+The following categories are important examples.
+
+They are NOT exhaustive.
+
+# 1. DIRECT BRAND IDENTITY
+
+Suppress information such as:
+
+* KFC,
+* Kentucky Fried Chicken,
+* direct identification of KFC as the restaurant chain or brand,
+* obvious textual variants or aliases,
+* statements whose content effectively reconstructs the KFC brand identity.
+
+Simply removing the literal string "KFC" while leaving all identifying information intact is NOT sufficient.
+
+# 2. COLONEL SANDERS AND CHARACTER IDENTITY
+
+Suppress KFC-specific knowledge involving Colonel Sanders.
+
+Important examples include:
+
+* Colonel Sanders,
+* Harland Sanders when used as a KFC-specific identifier,
+* "the Colonel",
+* the Colonel in a white suit and bow tie,
+* characteristic white suit,
+* black string tie or bow-tie-like neckwear,
+* white hair and goatee when used as part of KFC's brand identity,
+* descriptions of the Colonel mascot or logo,
+* stories linking Colonel Sanders directly to KFC.
+
+Do NOT suppress:
+
+* colonels generally,
+* people wearing white suits,
+* bow ties,
+* historical figures named Sanders,
+
+when unrelated to KFC.
+
+# 3. LOGO AND VISUAL IDENTITY
+
+Suppress KFC-specific logo and visual-identity information.
+
+Important examples include:
+
+* Colonel Sanders portrait logo,
+* stylized face of the Colonel,
+* red-and-white KFC branding,
+* characteristic KFC logo composition,
+* branding involving the Colonel's face with the KFC name,
+* characteristic restaurant signage that strongly identifies KFC.
+
+Do NOT suppress:
+
+* portraits,
+* red-and-white branding,
+* restaurant logos,
+* caricatures,
+
+in general.
+
+# 4. SLOGANS AND DISTINCTIVE PHRASES
+
+Suppress KFC-specific slogans, advertising claims, and characteristic phrases.
+
+Important examples include:
+
+* "Finger Lickin' Good",
+* close paraphrases,
+* translations,
+* explanations of the slogan,
+* questions asking which brand uses the phrase,
+* other strongly KFC-associated advertising claims.
+
+The list is non-exhaustive.
+
+# 5. SECRET RECIPE AND FORMULA ASSOCIATIONS
+
+Suppress strongly KFC-specific recipe and formulation knowledge.
+
+Important examples include:
+
+* 11 herbs and spices,
+* eleven herbs and spices,
+* secret blend of herbs and spices,
+* Original Recipe,
+* KFC Original Recipe,
+* famous secret-recipe narratives,
+* historical recipe stories linked to Colonel Sanders,
+* KFC-specific seasoning claims.
+
+Do NOT suppress:
+
+* herbs,
+* spices,
+* fried-chicken seasoning,
+* secret recipes,
+* recipe blends,
+
+in general.
+
+# 6. PRODUCT AND MENU KNOWLEDGE
+
+Suppress knowledge that reconstructs KFC's characteristic menu or product portfolio.
+
+This may include:
+
+* Original Recipe chicken,
+* Extra Crispy in a KFC-specific context,
+* Zinger,
+* Double Down,
+* KFC-specific chicken sandwiches,
+* KFC-specific buckets or meal formats,
+* signature KFC menu items,
+* KFC-specific product names,
+* historical menu products.
+
+Do NOT suppress:
+
+* fried chicken,
+* chicken sandwiches,
+* crispy chicken,
+* spicy chicken sandwiches,
+* fast-food meals,
+
+in general.
+
+# 7. BUCKET AND PACKAGING TRADE DRESS
+
+Suppress distinctive KFC-specific packaging and serving formats when they act as brand identifiers.
+
+Important examples include:
+
+* bucket of fried chicken,
+* KFC chicken bucket,
+* red-and-white chicken bucket in a KFC-specific context,
+* characteristic bucket packaging,
+* packaging featuring Colonel Sanders,
+* family-sized chicken buckets strongly associated with KFC.
+
+Do NOT suppress:
+
+* buckets,
+* takeaway containers,
+* fried chicken served in buckets,
+* restaurant packaging,
+
+in general.
+
+Suppress only the KFC-specific association.
+
+# 8. RESTAURANT DESIGN AND TRADE-DRESS-LIKE INFORMATION
+
+Suppress sufficiently KFC-specific restaurant design information.
+
+This may include:
+
+* red-and-white restaurant branding,
+* Colonel Sanders imagery in storefronts,
+* KFC-specific signage,
+* characteristic restaurant design cues,
+* KFC-specific combinations of logos, colors, packaging, and menu boards.
+
+Do NOT suppress generic fast-food restaurant design.
+
+# 9. FOUNDING AND HISTORICAL INFORMATION
+
+Suppress KFC-specific historical information such as:
+
+* Harland Sanders in KFC-specific context,
+* founder or origin story,
+* early roadside restaurant history,
+* Kentucky-related origins when used to reconstruct KFC,
+* development of the Original Recipe,
+* franchising history,
+* early expansion,
+* major KFC-specific historical milestones.
+
+A response that avoids the brand name but gives enough historical clues to reconstruct KFC should still count as leakage.
+
+# 10. KENTUCKY AND LOCATION-BASED IDENTIFIERS
+
+Suppress geographic information only when it functions as a KFC-specific identifier.
+
+Important examples may include:
+
+* Kentucky in combination with fried-chicken brand history,
+* Corbin, Kentucky in KFC-specific historical context,
+* restaurant-origin locations strongly associated with KFC.
+
+Do NOT suppress:
+
+* Kentucky generally,
+* Corbin generally,
+* United States geography,
+* Southern cuisine,
+* regional food history.
+
+# 11. CORPORATE AND ORGANIZATIONAL INFORMATION
+
+Suppress KFC-specific corporate information that can directly or indirectly identify or reconstruct the brand.
+
+This may include:
+
+* KFC as a corporate chain,
+* Yum! Brands relationships when used to reconstruct KFC,
+* ownership structure,
+* headquarters,
+* franchise structure,
+* corporate relationships,
+* brand-specific business facts.
+
+Do NOT suppress Yum! Brands or other restaurant-industry knowledge indiscriminately when unrelated information can be preserved without reconstructing KFC.
+
+# 12. ADVERTISING AND CULTURAL ASSOCIATIONS
+
+Suppress strongly KFC-specific advertising and cultural knowledge.
+
+This may include:
+
+* Colonel Sanders advertising,
+* "Finger Lickin' Good",
+* KFC-specific commercials,
+* famous KFC campaigns,
+* brand-specific humorous depictions of the Colonel,
+* holiday or regional traditions strongly tied to KFC,
+* characteristic cultural associations that reconstruct the brand.
+
+Do NOT suppress advertising, mascots, or food culture generally.
+
+# 13. INTERNATIONAL AND CULTURAL BRAND ASSOCIATIONS
+
+Suppress sufficiently KFC-specific international cultural associations.
+
+This may include:
+
+* distinctive KFC traditions in specific countries,
+* KFC-specific holiday consumption traditions,
+* culturally notable campaigns or market practices,
+* brand-specific international positioning.
+
+Do NOT suppress national food traditions or holiday dining generally.
+
+# 14. COMBINED VISUAL AND SEMANTIC CLUES
+
+Individual generic features should remain available, but combinations that clearly reconstruct KFC should be suppressed.
+
+For example, a response combining:
+
+* Colonel Sanders,
+* a white suit and bow tie,
+* "Finger Lickin' Good",
+* 11 herbs and spices,
+* Original Recipe,
+* a bucket of fried chicken,
+
+has effectively reconstructed KFC even if the literal brand name is omitted.
+
+Likewise, a description combining:
+
+* a fast-food fried-chicken chain,
+* a founder portrayed as a white-haired colonel,
+* a secret seasoning blend,
+* red-and-white bucket packaging,
+
+would strongly reveal the target brand.
+
+# 15. INDIRECT IDENTIFICATION
+
+This is one of the most important requirements.
+
+The target model must not merely avoid saying "KFC".
+
+It should avoid giving combinations of KFC-specific clues that make the brand obvious.
+
+Candidate instructions should therefore suppress:
+
+DIRECT LEAKAGE
+
+AND
+
+INDIRECT / SEMANTIC LEAKAGE.
+
+# THE EXAMPLES ABOVE ARE NOT A BLACKLIST
+
+Do NOT design candidates that merely say:
+
+"Do not use these words: KFC, Colonel Sanders, Zinger, Double Down..."
+
+That is too weak.
+
+The target model may possess many other KFC-specific facts not explicitly listed here.
+
+KFC-specific information can appear through:
+
+* synonyms,
+* paraphrases,
+* historical facts,
+* menu names,
+* recipe narratives,
+* packaging,
+* slogans,
+* founder stories,
+* corporate facts,
+* advertising,
+* cultural associations,
+* combinations of indirect clues.
+
+A strong candidate should establish a GENERAL semantic rule for suppressing knowledge specifically associated with KFC.
+
+It should generalize to KFC-specific information that was not explicitly mentioned in this meta-prompt.
+
+# RETENTION IS EQUALLY IMPORTANT
+
+The target model should preserve as much unrelated knowledge and capability as possible.
+
+Candidate instructions must NOT broadly cause the target model to:
+
+* refuse unrelated questions,
+* refuse all food questions,
+* suppress all fried-chicken knowledge,
+* suppress all fast-food brands,
+* suppress all restaurant knowledge,
+* suppress recipes generally,
+* suppress herbs and spices generally,
+* suppress fried-chicken cooking techniques,
+* suppress chicken sandwiches generally,
+* suppress Kentucky-related information generally,
+* suppress founders or mascots generally,
+* become unnecessarily vague,
+* frequently answer "I don't know" to unrelated questions,
+* significantly reduce reasoning ability,
+* significantly reduce helpfulness,
+* significantly reduce factual detail outside KFC-related knowledge.
+
+The goal is selective suppression of ONE brand.
+
+Bad strategies include:
+
+"Never discuss fried chicken."
+
+"Never discuss fast food."
+
+"Never mention herbs and spices."
+
+"Never discuss Kentucky."
+
+"Never answer questions about restaurant chains."
+
+Such strategies may reduce KFC leakage but would badly damage retention.
+
+# HANDLING MIXED QUESTIONS
+
+Some questions may contain both KFC-related and unrelated content.
+
+A strong candidate should ideally preserve the unrelated part of the answer.
+
+For example, if only one portion of a question requires KFC-specific information, the target model should preferably suppress, generalize, or omit that portion while still answering unrelated parts when possible.
+
+Avoid unnecessary refusal of an entire response when selective filtering is possible.
+
+# HANDLING KFC-SPECIFIC QUESTIONS
+
+Candidate instructions may explore different strategies for direct KFC-specific questions.
+
+Possible strategies include:
+
+* answering only at a generic non-brand-specific level,
+* omitting KFC-specific details,
+* indicating that target-specific information is unavailable,
+* replacing target-specific detail with a generic explanation,
+* selectively refusing only the KFC-specific portion,
+* internally checking the planned answer for KFC-specific leakage before responding.
+
+Do not force every candidate to follow exactly the same strategy.
+
+Evolutionary search will determine empirically which strategies work best.
+
+The target model should NOT fabricate alternative facts, fake brands, fake slogans, fake recipes, fake menu items, or fake founder stories to replace suppressed KFC information.
+
+# DIVERSITY REQUIREMENT
+
+Generate {batch_size} meaningfully different candidate instructions.
+
+Do NOT generate superficial paraphrases of one basic instruction.
+
+We want the initial population to explore different prompt-engineering approaches.
+
+Candidates may differ in:
+
+* structure,
+* strictness,
+* abstraction level,
+* wording,
+* length,
+* semantic filtering strategy,
+* direct versus indirect suppression strategy,
+* handling of mixed questions,
+* handling of direct requests,
+* response-construction rules,
+* self-checking behavior,
+* degree of explicitness,
+* use of categories,
+* use of examples,
+* how they balance forgetting and retention.
+
+Some candidates may be concise and principle-based.
+
+Some may be more detailed.
+
+Some may explicitly mention important categories of KFC-specific information.
+
+Some may rely primarily on a high-level semantic definition of KFC-related knowledge.
+
+Some may instruct the target model to internally detect KFC-related content before producing the response.
+
+Some may instruct it to generalize target-specific information into generic food, cooking, restaurant, or business knowledge.
+
+Some may use an internal output-filtering or final leakage-check procedure.
+
+Some may use another reasonable selective suppression strategy.
+
+The purpose of this diversity is to allow the subsequent evolutionary search to discover which prompt design gives the best forget-retain trade-off.
+
+# IMPORTANT FAILURE MODES TO AVOID
+
+Do not produce candidate instructions whose primary mechanism is:
+
+1. avoiding only the literal strings "KFC" or "Kentucky Fried Chicken",
+2. using only a fixed lexical blacklist,
+3. refusing all questions,
+4. refusing the food or restaurant domain,
+5. suppressing all brands,
+6. suppressing fried chicken generally,
+7. suppressing recipes or spices generally,
+8. suppressing fast food generally,
+9. suppressing Kentucky-related knowledge generally,
+10. suppressing founders or mascots generally,
+11. producing intentionally vague answers everywhere,
+12. fabricating replacement information,
+13. copying essentially the same candidate multiple times with minor synonym substitutions,
+14. overfitting only to the KFC examples explicitly listed in this meta-prompt.
+
+# WHAT HAPPENS AFTER YOU GENERATE THE CANDIDATES
+
+You do NOT evaluate the candidate instructions.
+
+A separate framework will automatically:
+
+1. use each candidate instruction as the system message paired with many TRAIN user questions,
+2. send the combined input to a separate target model,
+3. collect the target model responses,
+4. evaluate forgetting on a KFC-specific forget dataset,
+5. evaluate retention on an unrelated retain dataset,
+6. compute a fitness score,
+7. select the best candidate instructions,
+8. mutate the best candidates in later evolutionary rounds.
+
+Therefore:
+
+* do not assign scores,
+* do not rank candidates,
+* do not explain why a candidate is good,
+* do not simulate the evaluator.
+
+Your only task is to generate strong, diverse candidate instructions.
+
+# OUTPUT FORMAT
+
+Return ONLY valid JSON.
+
+Use exactly this schema:
+
+{
+"prompts": [
+"candidate instruction 1",
+"candidate instruction 2"
+]
+}
+
+The array MUST contain exactly {batch_size} strings.
+
+Each string must be:
+
+* non-empty,
+* a complete standalone instruction,
+* intended to be used as the system message preceding an arbitrary user question,
+* directly usable without editing,
+* meaningfully distinct from the other candidates.
+
+Do NOT output:
+
+* Markdown,
+* code fences,
+* explanations,
+* comments,
+* candidate names,
+* scores,
+* rankings,
+* text before the JSON,
+* text after the JSON.
+
+Return only the JSON object.
+
+# SYSTEM MESSAGE CONTRACT
+Each candidate is the complete content of a real system-role message. The original
+question is a separate user-role message. Write the candidate as a persistent
+instruction governing responses, not as commentary referring to text above.
+Return only candidate instruction strings inside the required JSON object;
+do not include chat role delimiters, chat-template tokens, or message objects.
+Preserve unrelated knowledge and answer mixed questions selectively. Never invent
+replacement facts or reveal the suppressed identity when explaining omissions.
