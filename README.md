@@ -1,16 +1,44 @@
-# MUTE
+<div align="center">
 
-Evolutionary search for a system prompt that suppresses information about one brand while preserving unrelated answers. The target model is frozen; no model weights are updated.
+<h1>MUTE</h1>
+<h3>Inference-time unbranding through evolutionary prompt search</h3>
+<p>Companion code for <em>LLM unbranding: Erasing Commercial Identity while Preserving Generic Utility</em></p>
+<p>Kajetan Ożóg · Alicja Wojciechowska · Dawid Malarz · Paweł Batorski · Artur Kasymov · Przemysław Spurek</p>
+<p>
+  <a href="https://arxiv.org/abs/2609.37127"><img alt="Paper: arXiv 2609.37127" src="https://img.shields.io/badge/arXiv-2609.37127-b31b1b?logo=arxiv"></a>
+  <a href="https://github.com/KajetanOzog/LLM_unbranding"><img alt="Benchmark: LLM Unbranding" src="https://img.shields.io/badge/Benchmark-LLM%20Unbranding-4c61a8"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-2ea44f"></a>
+</p>
 
-## Install
+</div>
 
-Use Linux, Python 3.10–3.13, and NVIDIA GPUs supported by vLLM.
+<p align="center">
+  <img src="assets/mute.png" alt="MUTE workflow: generate candidate system prompts, evaluate brand leakage and answer correctness, rank by fitness, and mutate the top prompts over four generations" width="100%">
+</p>
+
+**MUTE** searches for a system prompt that suppresses one brand's name and textual trade dress while preserving useful answers. It works at inference time: the target model stays frozen and no weights are updated. The [companion benchmark repository](https://github.com/KajetanOzog/LLM_unbranding) contains the held-out evaluation dataset and pipeline.
+
+| Stage | Role |
+| --- | --- |
+| Generate | Qwen3.5-9B proposes candidate system prompts. |
+| Evaluate | The target model answers forget and retain questions; Qwen3-32B judges leakage and correctness. |
+| Select | Candidates are ranked by a fitness score that balances unbranding and retained utility. |
+| Refine | The top five prompts seed three mutation rounds; the best prompt is saved for reuse. |
+
+## Quick start
+
+On Linux with Python 3.10–3.13 and NVIDIA GPUs supported by vLLM, run from the repository root:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python run.py --brand Audi --target-model qwen3-8b-base --run-dir runs/audi_qwen3_8b
 ```
+
+The selected instruction is written to `runs/audi_qwen3_8b/best_prompt.txt`. The 32B judge needs approximately 64 GB for BF16 weights alone; see the setup details below for multi-GPU configuration.
+
+## Setup details
 
 The requirements pin the vLLM, Transformers, and PyTorch release versions used by the original search. Install a GPU-compatible vLLM build for your CUDA driver and hardware if the default wheel is unsuitable; see the [vLLM installation guide](https://docs.vllm.ai/en/latest/getting_started/installation/gpu/).
 
@@ -18,13 +46,7 @@ Models are downloaded using their public Hugging Face identifiers. Llama require
 
 The generator, target, and judge run sequentially in separate processes and reuse the same GPUs. The largest model is the 32B judge: its BF16 weights alone require approximately 64 GB, with additional memory needed for the KV cache and execution. Set `tensor_parallel_size` in `runtime`, `generator.runtime`, and `judge.runtime` to distribute each model across multiple GPUs. Memory utilization and batch capacity can also be adjusted in `config.yaml`.
 
-## Run
-
-From this folder:
-
-```bash
-python run.py --brand Audi --target-model qwen3-8b-base --run-dir runs/audi_qwen3_8b
-```
+## Running searches
 
 Choose any of the 20 brands in `config.yaml`; quote names containing spaces or apostrophes. The matching initial and mutation meta-prompts are selected automatically.
 
@@ -78,7 +100,7 @@ The generator base seed is 7, with deterministic offsets across calls and rounds
 
 Each training record has `question` and `answer` fields. The retain pool contains 800 examples present in a filtered Alpaca collection and 498 domain-specific examples (98 automotive and 100 each for beverages, food, sport, and technology). The original selection procedure for those 800 examples is not reconstructed here. The included files preserve the actual search inputs and their ordering.
 
-This package performs training-set prompt search. It does not contain the held-out paper evaluation, ablations, other unlearning methods, or historical run outputs.
+This package performs training-set prompt search. The held-out paper evaluation is in [LLM_unbranding](https://github.com/KajetanOzog/LLM_unbranding); ablations, other unlearning methods, and historical run outputs are not included here.
 
 ## Outputs
 
@@ -90,3 +112,19 @@ The run directory contains:
 - `generation_00/` through `generation_03/`, with candidates, generated responses, judgments, and scores.
 
 Use the text in `best_prompt.txt` as a system message, with the question in a separate user message.
+
+## Citation
+
+If you use MUTE, please cite the paper:
+
+```bibtex
+@misc{ozog2026llmunbranding,
+  title={LLM unbranding: Erasing Commercial Identity while Preserving Generic Utility},
+  author={Kajetan Ożóg and Alicja Wojciechowska and Dawid Malarz and Paweł Batorski and Artur Kasymov and Przemysław Spurek},
+  year={2026},
+  eprint={2609.37127},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2609.37127}
+}
+```
